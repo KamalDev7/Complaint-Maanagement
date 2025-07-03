@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user_dashboard.css' %}">
+
+</head>
+<body>
+<div class="container">
+    <h1>Welcome, {{ request.session.user_role|title }}!</h1>
+    <ul>
+        <li><a href="{% url 'submit_complaint' %}">Submit Complaint</a></li>
+        <li><a href="{% url 'my_complaints' %}">Track Complaint Status</a></li>
+        <!-- <li><a href="{% url 'my_complaints' %}">My Complaint History</a></li> -->
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+</div>
+</body>
+</html>

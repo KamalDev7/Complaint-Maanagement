@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/staff_dashboard.css' %}">
+
+</head>
+<body>
+
+<div class="dashboard">
+    <h1>Welcome, Staff!</h1>
+    <ul>
+        <li><a href="{% url 'staff_complaint' %}">View Assigned Complaints</a></li>
+        <li><a href="{% url 'mark_resolved' %}">Mark Complaints as Resolved</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+</div>
+
+</body>
+</html>

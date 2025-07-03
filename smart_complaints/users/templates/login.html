@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Smart Complaint System</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+
+</head>
+<body>
+    <div class="form-container">
+        <h2>Login</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <label for="id_email">Email</label>
+            {{ form.email }}
+
+            <label for="id_password">Password</label>
+            {{ form.password }}
+
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+        <p class="text-center">
+            Don’t have an account? <a href="{% url 'register' %}">Register here</a>
+        </p>
+    </div>
+</body>
+</html>

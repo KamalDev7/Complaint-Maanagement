@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Manage Complaints</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin_complaints.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Admin - Complaint Management</h2>
+
+        <div class="filter">
+            <form method="get">
+                <label for="status">Filter by status:</label>
+                <select name="status" onchange="this.form.submit()">
+                    <option value="">All</option>
+                    <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="in_progress" {% if status_filter == 'in_progress' %}selected{% endif %}>In Progress</option>
+                    <option value="Resolved" {% if status_filter == 'Resolved' %}selected{% endif %}>Resolved</option>
+                </select>
+            </form>
+        </div>
+
+        {% for complaint in complaints %}
+            <div class="complaint">
+                <div class="title">{{ complaint.title }}</div>
+                <div class="meta">
+                    Submitted by: {{ complaint.submitted_by.name }} |
+                    Date: {{ complaint.created_at|date:"M d, Y H:i" }}
+                </div>
+
+                <div class="desc">{{ complaint.description }}</div>
+
+                {% if complaint.attachment %}
+                    <div><a href="{{ complaint.attachment.url }}" target="_blank">View Attachment</a></div>
+                {% endif %}
+
+                <div class="status {{ complaint.status }}">{{ complaint.get_status_display }}</div>
+
+                <form method="post" action="{% url 'update_complaint' complaint.id %}">
+                    {% csrf_token %}
+                    
+                    <select name="assigned_to">
+                        <option value="">Assign to Staff</option>
+                        {% for staff in staff_users %}
+                            <option value="{{ staff.id }}" {% if complaint.assigned_to == staff %}selected{% endif %}>
+                                {{ staff.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <select name="status">
+                        <option value="">Change Status</option>
+                        <option value="pending" {% if complaint.status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="in_progress" {% if complaint.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                        <option value="resolved" {% if complaint.status == 'Resolved' or complaint.status == 'resolved' %}selected{% endif %}>Resolved</option>
+                    </select>
+
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+        {% empty %}
+            <p>No complaints found.</p>
+        {% endfor %}
+        <a href="{% url 'admin_dashboard' %}" class="back-link">Back To Admin Dashboard</a>
+    </div>
+</body>
+</html>

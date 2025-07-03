@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register | Smart Complaint System</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
+
+</head>
+<body>
+    <div class="form-container">
+        <h2>Create Account</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <label for="id_name">Name</label>
+            {{ form.name }}
+
+            <label for="id_email">Email</label>
+            {{ form.email }}
+
+            <label for="id_password">Password</label>
+            {{ form.password }}
+
+            <label for="id_confirm_password">Confirm Password</label>
+            {{ form.confirm_password }}
+
+            <label for="id_role">Role</label>
+            {{ form.role }}
+
+            <button type="submit" class="submit-btn">Register</button>
+        </form>
+        <p class="text-center">
+            Already have an account? <a href="{% url 'login' %}">Login here</a>
+        </p>
+    </div>
+</body>
+</html>

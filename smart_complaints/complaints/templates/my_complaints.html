@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My Complaints</title>
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/my_complaints.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>My Complaints</h2>
+
+        {% if complaints %}
+            {% for complaint in complaints %}
+                <div class="complaint">
+                    <div class="title">{{ complaint.title }}</div>
+                    <div class="meta">
+                        Submitted on: {{ complaint.created_at|date:"M d, Y H:i" }}
+                    </div>
+                    <div class="desc">{{ complaint.description }}</div>
+
+                    
+                    <div class="status {{ complaint.status }}">
+                        {{ complaint.get_status_display }}
+                    </div>
+
+                    {% if complaint.staff_response %}
+                        <div class="response">
+                            <strong>Staff Response:</strong><br>
+                            {{ complaint.staff_response }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-data">You have not submitted any complaints yet.</div>
+        {% endif %}
+
+        <a href="{% url 'user_dashboard' %}" class="back-link"> Back To User Dashboard </a>
+
+
+    </div>
+</body>
+</html>

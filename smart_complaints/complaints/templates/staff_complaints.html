@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/staff_complaints.css' %}">
+
+</head>
+<body>
+    <div class="container">
+        <h2>Staff Dashboard - Assigned Complaints</h2>
+
+
+        {% if complaints %}
+            {% for complaint in complaints %}
+                <div class="complaint">
+                    <div class="title">{{ complaint.title }}</div>
+                    <div class="meta">
+                        Submitted by: {{ complaint.submitted_by.name }} |
+                        Submitted on: {{ complaint.created_at|date:"M d, Y H:i" }}
+                    </div>
+                    <div class="desc">{{ complaint.description }}</div>
+
+
+                    <div class="status {{ complaint.status }}">{{ complaint.get_status_display }}</div>
+
+                    {% if complaint.staff_response %}
+                        <div class="response-box">
+                            <strong>Your Response:</strong><br>
+                            {{ complaint.staff_response }}
+                        </div>
+                    {% endif %}
+
+                    <form method="post" action="{% url 'staff_update_complaint' complaint.id %}">
+                        {% csrf_token %}
+                                          
+                        {% if complaint.status != 'resolved' and complaint.status != 'Resolved' %}
+                        <div class="checkbox">
+                            <input type="checkbox" name="mark_resolved" value="yes" id="resolve{{ complaint.id }}">
+                            <label for="resolve{{ complaint.id }}">Mark as Resolved</label>
+                        </div>
+                        <button type="submit">Submit</button>
+                        {% endif %}   
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-data">No complaints assigned to you.</div>
+        {% endif %}
+        <!-- <a href="{% url 'users:staff_dashboard' %}">Staff Dashboard</a> -->
+
+        <a href="{% url 'staff_dashboard' %}" class="back-link">Back To Staff dashboard</a>
+    </div>
+</body>
+</html>

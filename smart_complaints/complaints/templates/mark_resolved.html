@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mark Complaints as Resolved</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mark_resolved.css' %}">
+
+</head>
+<body>
+<div class="container">
+    <h2>Mark Assigned Complaints as Resolved</h2>
+    {% for complaint in complaints %}
+    {% if complaint.status != 'resolved' and complaint.status != 'Resolved' %}
+        <div class="complaint">
+            <p><strong>Title:</strong> {{ complaint.title }}</p>
+            <p><strong>Description:</strong> {{ complaint.description }}</p>
+            <p><strong>Status:</strong> {{ complaint.status }}</p>
+            <form method="post">
+                {% csrf_token %}
+
+                <input type="hidden" name="complaint_id" value="{{ complaint.id }}">
+                <button type="submit">Mark as Resolved</button>
+            </form>
+        </div>
+        {% else %}
+        {% endif %}
+        {% endfor %}
+    <a href="{% url 'staff_dashboard' %}" class="back-link">Back To Staff Complaints</a>
+</div>
+</body>
+</html>

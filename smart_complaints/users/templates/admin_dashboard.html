@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin_dashboard.css' %}">
+
+</head>
+<body>
+
+<header>
+    <h1>Welcome, Admin!</h1>
+</header>
+
+<div class="container">
+    <ul>
+        <li><a href="{% url 'admin_complaints' %}">Manage Complaints</a></li>
+        <li><a href="{% url 'user_history' %}">View User History</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+</div>
+
+</body>
+</html>
