@@ -1,2 +1,2 @@
 # Django project
-This is project is build using Django framework.
+This project is built using Django framework.
